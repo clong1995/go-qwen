@@ -1,4 +1,4 @@
-module go-qwen
+module github.com/clong1995/go-qwen
 
 go 1.24
 
