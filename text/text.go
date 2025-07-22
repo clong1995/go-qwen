@@ -3,7 +3,7 @@ package text
 import (
 	"encoding/json"
 	"github.com/clong1995/go-config"
-	"go-qwen/send"
+	"github.com/clong1995/go-qwen/send"
 	"log"
 )
 
