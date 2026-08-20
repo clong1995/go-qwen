@@ -2,6 +2,8 @@ package text
 
 import (
 	"testing"
+
+	"github.com/clong1995/go-qwen/tool"
 )
 
 func TestSendMessage(t *testing.T) {
@@ -30,7 +32,7 @@ func TestSendMessage(t *testing.T) {
 
 			// 第一轮对话
 			userInput1 := "我家的多肉植物叶子变黄了，怎么办？"
-			reply1, id1, err := Generate(userInput1, instructions, previousID)
+			reply1, id1, err := Generate(userInput1, instructions, previousID, tool.NoTool)
 			if err != nil {
 				t.Errorf("%+v", err)
 				return
@@ -41,7 +43,7 @@ func TestSendMessage(t *testing.T) {
 
 			// 第二轮对话（延续上下文）
 			userInput2 := "那我应该多久浇一次水呢？"
-			reply2, id2, err := Generate(userInput2, instructions, previousID)
+			reply2, id2, err := Generate(userInput2, instructions, previousID, tool.NoTool)
 			if err != nil {
 				t.Errorf("%+v", err)
 				return

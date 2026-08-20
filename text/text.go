@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	conf "github.com/clong1995/go-qwen/config"
+	"github.com/clong1995/go-qwen/tool"
 	"github.com/pkg/errors"
 )
 
@@ -15,7 +16,7 @@ import (
 var httpClient = &http.Client{}
 
 // Generate 发送一条消息，返回助手的回复和本次的 response_id
-func Generate(userInput, instructions, previousResponseID string, tools Tool) (reply string, newResponseID string, err error) {
+func Generate(userInput, instructions, previousResponseID string, tools tool.Tool) (reply string, newResponseID string, err error) {
 
 	url := "https://dashscope.aliyuncs.com/compatible-mode/v1/responses"
 
@@ -79,12 +80,12 @@ func Generate(userInput, instructions, previousResponseID string, tools Tool) (r
 
 // ChatRequest 定义 Responses API 的请求体
 type request struct {
-	Model              string `json:"model"`                          // 模型名称，如 qwen3.7-plus
-	Input              string `json:"input"`                          // 当前用户的输入
-	Instructions       string `json:"instructions"`                   // 系统指令（顶层字段）
-	PreviousResponseID string `json:"previous_response_id,omitempty"` // 上一轮的 response_id（首轮为空）
-	Tools              Tool   `json:"tools"`
-	EnableThinking     bool   `json:"enable_thinking"`
+	Model              string    `json:"model"`                          // 模型名称，如 qwen3.7-plus
+	Input              string    `json:"input"`                          // 当前用户的输入
+	Instructions       string    `json:"instructions"`                   // 系统指令（顶层字段）
+	PreviousResponseID string    `json:"previous_response_id,omitempty"` // 上一轮的 response_id（首轮为空）
+	Tools              tool.Tool `json:"tools"`
+	EnableThinking     bool      `json:"enable_thinking"`
 }
 
 // ChatResponse 定义 Responses API 的响应体（仅提取需要的字段）
@@ -99,23 +100,3 @@ type response struct {
 		// 对于 reasoning 类型，会有 summary 字段，但我们不关心
 	} `json:"output"`
 }
-
-type Tool []map[string]string
-
-// NoTool 联网搜索工具
-var NoTool Tool
-
-// WebSearch 联网搜索工具
-var WebSearch Tool = []map[string]string{{"type": "web_search"}}
-
-// WebExtractor 网页抽取工具
-var WebExtractor Tool = []map[string]string{{"type": "web_search"}, {"type": "web_extractor"}}
-
-// CodeInterpreter 代码解释器工具
-var CodeInterpreter Tool = []map[string]string{{"type": "code_interpreter"}}
-
-// WebSearchImage 根据文本描述搜索图片
-var WebSearchImage Tool = []map[string]string{{"type": "web_search_image"}}
-
-// ImageSearch 根据图片搜索相似或相关图片
-var ImageSearch Tool = []map[string]string{{"type": "image_search"}}
