@@ -60,6 +60,17 @@ func TestGenerate(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "Generate-2",
+			args: args{
+				prompt:           "一只可爱的卡通兔子，主体完整，居中，3D质感，主体约占画面65%，四周留有足够纯色背景边距。背景是单一纯色色键绿幕，精确颜色 #00FF00，完全均匀。主体边缘直接与绿幕相接，轮廓清晰，毛发尽量少飘散。高清。",
+				size:             "512*512",
+				negativePrompt:   "渐变背景，纹理背景，阴影，投影，接触阴影，地面，环境，反光，环境光，暗角，噪点，颗粒，景深，模糊，散景，背景物体，文字，水印，边框，棋盘格，假透明，透明背景，多只兔子，裁切，偏心，偏离中心，部分出画，残缺，绿色反光，绿边，白色描边，白色轮廓，轮廓线，光晕，白色光晕，边缘发光，中间过渡色，贴纸白边，毛发边缘杂乱",
+				promptExtendMode: PromptExtendNone,
+				n:                1,
+				reference:        []string{},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
